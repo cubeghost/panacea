@@ -1,13 +1,13 @@
 import { createCookieSessionStorage } from "@remix-run/node";
 
-// export the whole sessionStorage object
 export const sessionStorage = createCookieSessionStorage({
   cookie: {
-    name: "panacea_session", // use any name you want here
+    name: "panacea_session",
     sameSite: "lax", // this helps with CSRF
-    path: "/", // remember to add this so the cookie will work in all routes
+    path: "/", 
     httpOnly: true, // for security reasons, make this cookie http only
-    secrets: [ process.env.SESSION_SECRET ], // replace this with an actual secret
-    secure: process.env.NODE_ENV === "production", // enable this in prod only
+    secrets: [ process.env.SESSION_SECRET ],
+    maxAge: 60 * 60 * 24 * 30,
+    secure: process.env.NODE_ENV === "production",
   },
 });

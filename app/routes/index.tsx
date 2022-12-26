@@ -14,7 +14,7 @@ export default function Index() {
   const { user } = useLoaderData<{ user: User }>();
   return (
     <div>
-          hi {user.email}
+      hi {user.email}
     </div>
   );
 }
