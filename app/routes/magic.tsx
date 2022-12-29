@@ -1,5 +1,5 @@
 import type { LoaderFunction } from '@remix-run/node';
-import { auth } from '~/services/auth.server'
+import { auth } from '~/services/auth.server';
 
 export const loader: LoaderFunction = async ({ request }) => {
   await auth.authenticate('email-link', request, {
@@ -12,5 +12,5 @@ export const loader: LoaderFunction = async ({ request }) => {
     // This redirect is optional, if not defined any error will be throw and
     // the ErrorBoundary will be rendered.
     failureRedirect: '/login',
-  })
-}
+  });
+};

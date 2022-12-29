@@ -12,17 +12,17 @@ export const sendEmail = ({
   subject,
   body,
 }: SendEmailArguments) => 
-mail
-  .send({
-    from: process.env.AUTH_EMAIL_FROM,
-    to,
-    subject,
-    html: body,
-  })
-  .then((response) => {
-    console.log(response[0].statusCode)
-    console.log(response[0].headers)
-  })
-  .catch((error) => {
-    console.error(error)
-  });
+  mail
+    .send({
+      from: process.env.AUTH_EMAIL_FROM,
+      to,
+      subject,
+      html: body,
+    })
+    .then((response) => {
+      console.log(response[0].statusCode);
+      console.log(response[0].headers);
+    })
+    .catch((error) => {
+      console.error(error);
+    });

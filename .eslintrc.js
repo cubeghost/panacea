@@ -1,4 +1,38 @@
-/** @type {import('eslint').Linter.Config} */
 module.exports = {
-  extends: ["@remix-run/eslint-config", "@remix-run/eslint-config/node"],
+  'env': {
+    'browser': true,
+    'es2021': true,
+    'node': true
+  },
+  'extends': [
+    'eslint:recommended',
+    'plugin:react/recommended',
+    'plugin:@typescript-eslint/recommended'
+  ],
+  'overrides': [
+  ],
+  'parser': '@typescript-eslint/parser',
+  'parserOptions': {
+    'ecmaVersion': 'latest',
+    'sourceType': 'module'
+  },
+  'plugins': [
+    'react',
+    '@typescript-eslint'
+  ],
+  'rules': {
+    'indent': [
+      'error',
+      2
+    ],
+    'quotes': [
+      'error',
+      'single'
+    ],
+    'semi': [
+      'error',
+      'always'
+    ],
+    'react/react-in-jsx-scope': ['off']
+  }
 };

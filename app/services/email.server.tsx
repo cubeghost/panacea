@@ -1,12 +1,12 @@
-import { renderToString } from 'react-dom/server'
+import { renderToString } from 'react-dom/server';
 
 import type { User } from '@prisma/client';
-import type { SendEmailFunction } from 'remix-auth-email-link'
+import type { SendEmailFunction } from 'remix-auth-email-link';
 
 import { sendEmail } from '~/services/sendgrid.server';
 
 export const sendMagicLinkEmail: SendEmailFunction<User> = async (options) => {
-  const subject = "Here's your Magic sign-in link";
+  const subject = 'Here\'s your Magic sign-in link';
   const body = renderToString(
     <p>
       Hi there,<br />

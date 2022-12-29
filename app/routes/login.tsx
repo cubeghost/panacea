@@ -1,6 +1,6 @@
 import type { LoaderFunction, ActionFunction } from '@remix-run/node';
 import { Form, useLoaderData } from '@remix-run/react';
-import { json } from "@remix-run/node"; 
+import { json } from '@remix-run/node'; 
 
 import { auth } from '~/services/auth.server';
 import { sessionStorage } from '~/services/session.server';
@@ -13,7 +13,7 @@ export const loader: LoaderFunction = async ({ request }) => {
   // instance.
   if (session.has('auth:magiclink')) return json({ magicLinkSent: true });
   return json({ magicLinkSent: false });
-}
+};
 
 export const action: ActionFunction = async ({ request }) => {
   // The success redirect is required in this action, this is where the user is
@@ -25,7 +25,7 @@ export const action: ActionFunction = async ({ request }) => {
     // rendered.
     failureRedirect: '/login',
   });
-}
+};
 
 export default function Login() {
   const { magicLinkSent } = useLoaderData<{ magicLinkSent: boolean }>();

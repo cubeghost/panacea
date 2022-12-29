@@ -1,6 +1,6 @@
 
 import cn from 'classnames';
-import {eachDayOfInterval, startOfMonth, endOfMonth, isToday, getDate, getDay} from 'date-fns'
+import {eachDayOfInterval, startOfMonth, endOfMonth, isToday, getDate, getDay} from 'date-fns';
 
 const Calendar = () => {
   const now = new Date();

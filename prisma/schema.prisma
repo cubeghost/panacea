@@ -30,6 +30,7 @@ model Record {
   endsAt    DateTime
   type      RecordType @relation(fields: [typeId], references: [id])
   typeId    Int
+  data      Json
 
   @@index([typeId])
   @@index([userId])
@@ -44,8 +45,6 @@ model RecordType {
   name            String
   records         Record[]
   schemas         RecordSchema[]
-  currentSchema   CurrentRecordSchema? // validate in application code
-  currentSchemaId Int                  @unique
 
   @@index([userId])
 }
@@ -56,18 +55,7 @@ model RecordSchema {
   updatedAt             DateTime             @updatedAt
   type                  RecordType           @relation(fields: [typeId], references: [id])
   typeId                Int
-  currentRecordSchema   CurrentRecordSchema?
-  currentRecordSchemaId Int
+  fields                Json
 
   @@index([typeId])
-}
-
-model CurrentRecordSchema {
-  id        Int          @id @default(autoincrement())
-  createdAt DateTime     @default(now())
-  updatedAt DateTime     @updatedAt
-  type      RecordType   @relation(fields: [typeId], references: [id])
-  typeId    Int          @unique
-  schema    RecordSchema @relation(fields: [schemaId], references: [id])
-  schemaId  Int          @unique
 }

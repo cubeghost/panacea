@@ -1,4 +1,4 @@
-import type { MetaFunction } from "@remix-run/node";
+import type { LinksFunction, MetaFunction } from '@remix-run/node';
 import {
   Links,
   LiveReload,
@@ -6,12 +6,25 @@ import {
   Outlet,
   Scripts,
   ScrollRestoration,
-} from "@remix-run/react";
+} from '@remix-run/react';
+import sanitize from 'sanitize.css';
+import sanitizeForms from 'sanitize.css/forms.css';
+import sanitizeType from 'sanitize.css/typography.css';
+
+import styles from '~/styles/global.css';
+
+
+export const links: LinksFunction = () => ([
+  { rel: 'stylesheet', href: sanitize },
+  { rel: 'stylesheet', href: sanitizeForms },
+  { rel: 'stylesheet', href: sanitizeType },
+  { rel: 'stylesheet', href: styles },
+]);
 
 export const meta: MetaFunction = () => ({
-  charset: "utf-8",
-  title: "New Remix App",
-  viewport: "width=device-width,initial-scale=1",
+  charset: 'utf-8',
+  title: 'New Remix App',
+  viewport: 'width=device-width,initial-scale=1',
 });
 
 export default function App() {

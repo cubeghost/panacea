@@ -12,9 +12,9 @@ export function links() {
 }
 
 export const loader: LoaderFunction = async ({ request }) => {
-  const user = await auth.isAuthenticated(request, { failureRedirect: '/login' })
+  const user = await auth.isAuthenticated(request, { failureRedirect: '/login' });
   return json({ user });
-}
+};
 
 export default function Index() {
   const { user } = useLoaderData<{ user: User }>();
@@ -23,7 +23,7 @@ export default function Index() {
       hi {user.email}
       <br />
       <div style={{maxWidth: '300px'}}>
-      <Calendar />
+        <Calendar />
       </div>
     </div>
   );
