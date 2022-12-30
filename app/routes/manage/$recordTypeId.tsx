@@ -4,7 +4,6 @@ import { useLoaderData, Form } from '@remix-run/react';
 
 import { prisma } from '~/utils/prisma.server';
 import RecordTypeForm from '~/components/RecordTypeForm';
-import type { Prisma, RecordSchema } from '@prisma/client';
 import { formatDataForRecordTypeSchema, updateRecordTypeWithSchema } from '~/models/recordType.server';
 import invariant from 'tiny-invariant';
 
@@ -46,12 +45,11 @@ export const loader: LoaderFunction = async ({ params }) => {
 };
 
 export default function Update() {
-  const { recordType } = useLoaderData<{ recordType: Prisma.RecordTypeGetPayload<{include: {schemas: true}}> }>();
-  console.log(recordType)
+  const { recordType } = useLoaderData<typeof loader>();
 
   return (
     <>
-      <h2>New entry type</h2>
+      <h2>Edit entry type</h2>
       <Form method="post">
         <RecordTypeForm
           name={recordType.name}

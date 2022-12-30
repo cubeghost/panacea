@@ -6,9 +6,8 @@ generator client {
 }
 
 datasource db {
-  provider     = "mysql"
-  url          = env("DATABASE_URL")
-  relationMode = "prisma"
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
 }
 
 model User {
@@ -21,41 +20,37 @@ model User {
 }
 
 model Record {
-  id        Int        @id @default(autoincrement())
-  createdAt DateTime   @default(now())
-  updatedAt DateTime   @updatedAt
-  user      User       @relation(fields: [userId], references: [id])
+  id        Int          @id @default(autoincrement())
+  createdAt DateTime     @default(now())
+  updatedAt DateTime     @updatedAt
+  user      User         @relation(fields: [userId], references: [id])
   userId    Int
-  startsAt  DateTime   @default(now())
+  startsAt  DateTime     @default(now())
   endsAt    DateTime
-  type      RecordType @relation(fields: [typeId], references: [id])
+  type      RecordType   @relation(fields: [typeId], references: [id])
   typeId    Int
+  schema    RecordSchema @relation(fields: [schemaId], references: [id])
+  schemaId  Int
   data      Json
-
-  @@index([typeId])
-  @@index([userId])
 }
 
 model RecordType {
-  id              Int                  @id @default(autoincrement())
-  createdAt       DateTime             @default(now())
-  updatedAt       DateTime             @updatedAt
-  user            User                 @relation(fields: [userId], references: [id])
-  userId          Int
-  name            String
-  records         Record[]
-  schemas         RecordSchema[]
-
-  @@index([userId])
+  id        Int            @id @default(autoincrement())
+  createdAt DateTime       @default(now())
+  updatedAt DateTime       @updatedAt
+  user      User           @relation(fields: [userId], references: [id])
+  userId    Int
+  name      String
+  records   Record[]
+  schemas   RecordSchema[]
 }
 
 model RecordSchema {
-  id                    Int                  @id @default(autoincrement())
-  createdAt             DateTime             @default(now())
-  updatedAt             DateTime             @updatedAt
-  type                  RecordType           @relation(fields: [typeId], references: [id])
-  typeId                Int
-  fields                Json
-
-  @@index([typeId])
+  id        Int        @id @default(autoincrement())
+  createdAt DateTime   @default(now())
+  updatedAt DateTime   @updatedAt
+  type      RecordType @relation(fields: [typeId], references: [id])
+  typeId    Int
+  fields    Json
+  records   Record[]
 }

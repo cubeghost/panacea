@@ -1,12 +1,9 @@
 import { ActionFunction, redirect } from '@remix-run/node';
 import { Form } from '@remix-run/react';
-import queryString from 'query-string';
-import set from 'lodash/set';
 
 import { auth } from '~/services/auth.server';
-import { prisma } from '~/utils/prisma.server';
 import RecordTypeForm from '~/components/RecordTypeForm';
-import { formatDataForRecordTypeSchema } from '~/models/recordType.server';
+import { formatDataForRecordTypeSchema, createRecordTypeWithSchema } from '~/models/recordType.server';
 
 
 /*
@@ -64,27 +61,15 @@ export const action: ActionFunction = async ({ request }) => {
 
   const data = formatDataForRecordTypeSchema(await request.text());
 
-  const { fields, ...rest } = data;
+  const { fields, ...recordType } = data;
   
-  const recordType = await prisma.recordType.create({
-    data: {
-      ...rest,
-      user: {
-        connect: {
-          id: user.id,
-        },
-      },
-      schemas: {
-        create: {
-          fields,
-        }
-      }
-    }
+  const newRecordType = await createRecordTypeWithSchema({
+    recordType,
+    userId: user.id,
+    fields,
   });
 
-  console.log(recordType)
-
-  return redirect(`/manage/${recordType.id}`);
+  return redirect(`/manage/${newRecordType.id}`);
 };
 
 export default function New() {
@@ -93,9 +78,7 @@ export default function New() {
     <>
       <h2>New entry type</h2>
       <Form method="post">
-        <RecordTypeForm
-
-        />
+        <RecordTypeForm />
         
         <button type="submit">Save</button>
 
