@@ -1,9 +1,9 @@
-import type { LoaderFunction } from '@remix-run/node';
+import type { LoaderArgs } from '@remix-run/node';
 import { Outlet } from '@remix-run/react';
 
 import { auth } from '~/services/auth.server';
 
-export const loader: LoaderFunction = async ({ request }) => {
+export const loader = async ({ request }: LoaderArgs) => {
   return await auth.isAuthenticated(request, { failureRedirect: '/login' });
 };
 

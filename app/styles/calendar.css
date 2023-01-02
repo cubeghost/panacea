@@ -3,7 +3,9 @@
   grid-template-columns: repeat(7, 1fr);
 }
 
-.month .day {}
+.month .day {
+  padding: 0.25rem;
+}
 
 .day.isToday {
   background-color: skyblue;

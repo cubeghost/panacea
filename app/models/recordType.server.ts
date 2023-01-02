@@ -1,5 +1,6 @@
 import queryString from 'query-string';
 import set from 'lodash/set';
+import isEqual from 'lodash/isEqual';
 
 import { prisma } from '~/utils/prisma.server';
 import type { Prisma } from '@prisma/client';
@@ -57,16 +58,38 @@ export const updateRecordTypeWithSchema = async ({
   recordTypeId: number;
   recordType: Prisma.RecordTypeUpdateInput;
   fields: Field[];
-}) => await prisma.recordType.update({
-  where: {
-    id: recordTypeId,
-  },
-  data: {
-    ...recordType,
-    schemas: {
-      create: {
-        fields: fields as unknown as Prisma.JsonArray,
+}) => {
+  const latestSchema = await prisma.recordSchema.findFirst({
+    where: {
+      typeId: recordTypeId,
+    },
+    orderBy: {
+      createdAt: 'desc',
+    },
+  });
+
+  if (latestSchema && isEqual(latestSchema.fields, fields)) {
+    return await prisma.recordType.update({
+      where: {
+        id: recordTypeId,
+      },
+      data: {
+        ...recordType,
       }
-    }
+    });
+  } else {
+    return await prisma.recordType.update({
+      where: {
+        id: recordTypeId,
+      },
+      data: {
+        ...recordType,
+        schemas: {
+          create: {
+            fields: fields as unknown as Prisma.JsonArray,
+          }
+        }
+      }
+    });
   }
-});
+};

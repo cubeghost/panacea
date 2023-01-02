@@ -1,4 +1,4 @@
-import type { LoaderFunction } from '@remix-run/node';
+import type { LoaderArgs } from '@remix-run/node';
 import { json } from '@remix-run/node';
 import { Link, useLoaderData } from '@remix-run/react';
 import type { RecordType } from '@prisma/client';
@@ -6,21 +6,13 @@ import type { RecordType } from '@prisma/client';
 import { prisma } from '~/utils/prisma.server';
 import { auth } from '~/services/auth.server';
 
-export const loader: LoaderFunction = async ({ request }) => {
+export const loader = async ({ request }: LoaderArgs) => {
   const user = await auth.isAuthenticated(request, { failureRedirect: '/login' });
 
   const recordTypes = await prisma.recordType.findMany({
     where: {
       userId: user.id,
     },
-    include: {
-      schemas: {
-        take: 1,
-        orderBy: {
-          createdAt: 'desc'
-        }
-      }
-    }
   });
 
   return json({ recordTypes });

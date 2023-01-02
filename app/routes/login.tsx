@@ -1,11 +1,11 @@
-import type { LoaderFunction, ActionFunction } from '@remix-run/node';
+import type { LoaderArgs, ActionArgs } from '@remix-run/node';
 import { Form, useLoaderData } from '@remix-run/react';
 import { json } from '@remix-run/node'; 
 
 import { auth } from '~/services/auth.server';
 import { sessionStorage } from '~/services/session.server';
 
-export const loader: LoaderFunction = async ({ request }) => {
+export const loader = async ({ request }: LoaderArgs) => {
   await auth.isAuthenticated(request, { successRedirect: '/' });
   const session = await sessionStorage.getSession(request.headers.get('Cookie'));
   // This session key `auth:magiclink` is the default one used by the EmailLinkStrategy
@@ -15,7 +15,7 @@ export const loader: LoaderFunction = async ({ request }) => {
   return json({ magicLinkSent: false });
 };
 
-export const action: ActionFunction = async ({ request }) => {
+export const action = async ({ request }: ActionArgs) => {
   // The success redirect is required in this action, this is where the user is
   // going to be redirected after the magic link is sent, note that here the
   // user is not yet authenticated, so you can't send it to a private page.

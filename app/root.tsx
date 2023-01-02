@@ -13,7 +13,6 @@ import sanitizeType from 'sanitize.css/typography.css';
 
 import styles from '~/styles/global.css';
 
-
 export const links: LinksFunction = () => ([
   { rel: 'stylesheet', href: sanitize },
   { rel: 'stylesheet', href: sanitizeForms },
@@ -23,7 +22,7 @@ export const links: LinksFunction = () => ([
 
 export const meta: MetaFunction = () => ({
   charset: 'utf-8',
-  title: 'New Remix App',
+  title: 'panacea - health tracker',
   viewport: 'width=device-width,initial-scale=1',
 });
 

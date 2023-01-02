@@ -1,10 +1,13 @@
-import { ActionFunction, redirect } from '@remix-run/node';
+import { ActionArgs, redirect } from '@remix-run/node';
 import { Form } from '@remix-run/react';
 
 import { auth } from '~/services/auth.server';
-import RecordTypeForm from '~/components/RecordTypeForm';
+import RecordTypeForm, { links as recordTypeFormLinks } from '~/components/RecordTypeForm';
 import { formatDataForRecordTypeSchema, createRecordTypeWithSchema } from '~/models/recordType.server';
 
+export const links = () => ([
+  ...recordTypeFormLinks(),
+]);
 
 /*
 
@@ -56,13 +59,13 @@ record
 
 */
 
-export const action: ActionFunction = async ({ request }) => {
+export const action = async ({ request }: ActionArgs) => {
   const user = await auth.isAuthenticated(request, { failureRedirect: '/login' });
 
   const data = formatDataForRecordTypeSchema(await request.text());
 
   const { fields, ...recordType } = data;
-  
+
   const newRecordType = await createRecordTypeWithSchema({
     recordType,
     userId: user.id,
@@ -79,7 +82,7 @@ export default function New() {
       <h2>New entry type</h2>
       <Form method="post">
         <RecordTypeForm />
-        
+
         <button type="submit">Save</button>
 
       </Form>

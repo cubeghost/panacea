@@ -10,7 +10,8 @@ module.exports = {
     'query-string',
     'decode-uri-component',
     'split-on-first',
-    'filter-obj'
+    'filter-obj',
+    'nanoid',
   ],
   // appDirectory: "app",
   // assetsBuildDirectory: "public/build",

@@ -33,6 +33,7 @@ module.exports = {
       'error',
       'always'
     ],
-    'react/react-in-jsx-scope': ['off']
+    'react/react-in-jsx-scope': ['off'],
+    'react/jsx-max-props-per-line': ['error', {'maximum': 1, 'when': 'multiline'}]
   }
 };

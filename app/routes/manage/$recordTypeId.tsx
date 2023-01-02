@@ -1,13 +1,18 @@
-import type { ActionFunction, LoaderFunction } from '@remix-run/node';
+import type { ActionArgs, LoaderArgs } from '@remix-run/node';
 import { json } from '@remix-run/node';
-import { useLoaderData, Form } from '@remix-run/react';
-
-import { prisma } from '~/utils/prisma.server';
-import RecordTypeForm from '~/components/RecordTypeForm';
-import { formatDataForRecordTypeSchema, updateRecordTypeWithSchema } from '~/models/recordType.server';
+import { useLoaderData, useTransition, Form } from '@remix-run/react';
+import { nanoid } from 'nanoid';
 import invariant from 'tiny-invariant';
 
-export const action: ActionFunction = async ({ request, params }) => {
+import { prisma } from '~/utils/prisma.server';
+import RecordTypeForm, { links as recordTypeFormLinks } from '~/components/RecordTypeForm';
+import { formatDataForRecordTypeSchema, updateRecordTypeWithSchema } from '~/models/recordType.server';
+
+export const links = () => ([
+  ...recordTypeFormLinks(),
+]);
+
+export const action = async ({ request, params }: ActionArgs) => {
   invariant(params.recordTypeId, 'recordTypeId is required');
   const recordTypeId = parseInt(params.recordTypeId);
 
@@ -23,7 +28,7 @@ export const action: ActionFunction = async ({ request, params }) => {
   return null;
 };
 
-export const loader: LoaderFunction = async ({ params }) => {
+export const loader = async ({ params }: LoaderArgs) => {
   invariant(params.recordTypeId, 'recordTypeId is required');
   const recordTypeId = parseInt(params.recordTypeId);
 
@@ -41,23 +46,38 @@ export const loader: LoaderFunction = async ({ params }) => {
     }
   });
 
+  if (!recordType) {
+    throw new Response('Not Found', {
+      status: 404,
+    });
+  }
+
+  recordType.schemas[0].fields?.forEach((field) => {
+    field.id = nanoid();
+  });
+
   return json({ recordType });
 };
 
 export default function Update() {
+  const transition = useTransition();
+  const isSubmitting = transition.state === 'submitting';
   const { recordType } = useLoaderData<typeof loader>();
+  console.log(recordType)
 
   return (
     <>
       <h2>Edit entry type</h2>
       <Form method="post">
-        <RecordTypeForm
-          name={recordType.name}
-          schema={recordType.schemas[0]}
-        />
+        <fieldset disabled={isSubmitting}>
+          <RecordTypeForm
+            name={recordType.name}
+            color={recordType.color || undefined}
+            schema={recordType.schemas[0]}
+          />
 
-        <button type="submit">Save</button>
-
+          <button type="submit">{isSubmitting ? 'Saving...' : 'Save'}</button>
+        </fieldset>
       </Form>
     </>
   );

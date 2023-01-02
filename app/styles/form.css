@@ -1,0 +1,7 @@
+.formField {
+  margin: 0.5rem 0;
+}
+
+.formField__label {
+  display: block;
+}

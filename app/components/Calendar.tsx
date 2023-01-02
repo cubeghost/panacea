@@ -20,7 +20,7 @@ const Calendar = () => {
               isToday: isToday(day),
             })}
             style={{
-              gridColumn: getDay(day),
+              gridColumn: getDay(day) + 1,
             }}
             key={date}
           >
