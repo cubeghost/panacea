@@ -15,9 +15,13 @@ export const formatDataForRecordTypeSchema = (qs: string): RecordTypeWithFields 
   const data = {} as RecordTypeWithFields;
 
   for (const key in parsedQueryString) {
-    let value = parsedQueryString[key];
+    let value: unknown = parsedQueryString[key];
+
     if (key.includes('attributes.options') && typeof value === 'string') {
       value = [value];
+    }
+    if (/attributes\.(min|max)$/.test(key) && typeof value === 'string') {
+      value = parseInt(value);
     }
 
     set(data, key, value);

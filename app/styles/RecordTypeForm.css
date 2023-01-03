@@ -9,3 +9,40 @@
 }
 
 .schemaField__controls {}
+
+.schemaField__rangeOptions__colorScale {
+  display: flex;
+  margin-bottom: 0.5rem;
+}
+
+.schemaField__rangeOptions__colorScale > div {
+  flex: 1;
+  height: 1rem;
+}
+
+.schemaField__rangeOptions__inputs {
+  display: flex;
+  justify-content: space-between;
+}
+
+.schemaField__rangeOptions__inputGroup {
+  display: flex;
+  flex-direction: column;
+}
+
+.schemaField__rangeOptions__inputGroup .label {
+  display: block;
+}
+
+.schemaField__rangeOptions__inputGroup input[type=number] {
+  width: 6rem;
+}
+
+.schemaField__rangeOptions__inputGroup input[type=color] {
+  width: 6rem;
+  margin: 0.125rem 0;
+}
+
+.schemaField__rangeOptions__inputGroup input[type=color]::-webkit-color-swatch-wrapper {
+  padding: 0;
+}

@@ -8,7 +8,7 @@ import type { Field } from '~/utils/fields';
 
 type FieldProps = Omit<Field, 'type'>;
 
-const Range: React.FC<FieldProps> = ({name, attributes}) => {
+const Range: React.FC<FieldProps> = ({ name, attributes }) => {
   return (
     <input type="range" name={name} min={attributes?.min} max={attributes?.max} />
   );
@@ -16,7 +16,7 @@ const Range: React.FC<FieldProps> = ({name, attributes}) => {
 
 const mapStringOption = (value: string) => ({ value: value, label: value });
 
-const Options: React.FC<FieldProps> = ({name, attributes}) => {
+const Options: React.FC<FieldProps> = ({ name, attributes }) => {
   return (
     <Select isMulti options={attributes?.options.map(mapStringOption)} name={name} instanceId={name} />
   );
@@ -42,7 +42,7 @@ const FieldComponents = {
 };
 
 interface SchemaWithFields extends Omit<RecordSchema, 'fields'> {
-  fields: Field[]
+  fields: Field[];
 }
 
 interface NewRecordFormProps {
@@ -64,7 +64,7 @@ const RecordForm: React.FC<NewRecordFormProps> = ({ schema }) => {
         </FormField>
       </fieldset>
       {schema.fields?.map((field: Field) => {
-        const FieldComponent = FieldComponents[ field.type ];
+        const FieldComponent = FieldComponents[field.type];
         return (
           <FormField label={field.name} key={field.name}>
             <FieldComponent name={field.name} attributes={field.attributes} />

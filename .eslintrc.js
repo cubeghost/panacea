@@ -23,7 +23,8 @@ module.exports = {
   'rules': {
     'indent': [
       'error',
-      2
+      2,
+      { 'SwitchCase': 1 }
     ],
     'quotes': [
       'error',
@@ -34,6 +35,6 @@ module.exports = {
       'always'
     ],
     'react/react-in-jsx-scope': ['off'],
-    'react/jsx-max-props-per-line': ['error', {'maximum': 1, 'when': 'multiline'}]
+    'react/jsx-max-props-per-line': ['error', { 'maximum': 1, 'when': 'multiline' }],
   }
 };
