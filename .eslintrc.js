@@ -21,6 +21,7 @@ module.exports = {
     '@typescript-eslint'
   ],
   'rules': {
+    'max-len': ['warn', { 'code': 110 }],
     'indent': [
       'error',
       2,

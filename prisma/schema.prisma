@@ -14,7 +14,7 @@ model User {
   email       String       @unique
   records     Record[]
   recordTypes RecordType[]
-  preferences Json
+  preferences Json         @default("{}")
 }
 
 model Record {
@@ -50,6 +50,6 @@ model RecordSchema {
   updatedAt DateTime   @updatedAt
   type      RecordType @relation(fields: [typeId], references: [id])
   typeId    Int
-  fields    Json
+  fields    Json       @default("[]")
   records   Record[]
 }

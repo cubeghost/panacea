@@ -5,3 +5,13 @@
 .formField__label {
   display: block;
 }
+
+.formField--checkbox > label {
+  display: flex;
+  flex-direction: row-reverse;
+  justify-content: flex-end;
+}
+
+.formField--checkbox .formField__label {
+  margin-left: 0.25rem;
+}

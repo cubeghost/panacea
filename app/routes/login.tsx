@@ -1,9 +1,12 @@
 import type { LoaderArgs, ActionArgs } from '@remix-run/node';
-import { Form, useLoaderData } from '@remix-run/react';
+import { Form, useLoaderData, useTransition } from '@remix-run/react';
 import { json } from '@remix-run/node'; 
 
 import { auth } from '~/services/auth.server';
 import { sessionStorage } from '~/services/session.server';
+import FormField from '~/components/FormField';
+
+// shout out https://reactjsexample.com/email-link-strategy-with-remix-auth/
 
 export const loader = async ({ request }: LoaderArgs) => {
   await auth.isAuthenticated(request, { successRedirect: '/' });
@@ -29,17 +32,25 @@ export const action = async ({ request }: ActionArgs) => {
 
 export default function Login() {
   const { magicLinkSent } = useLoaderData<{ magicLinkSent: boolean }>();
+  const transition = useTransition();
+  const isSubmitting = transition.state === 'submitting';
+
   return (
-    <Form action="/login" method="post">
+    <>
       <h1>Log in to your account.</h1>
-      <div>
-        <label htmlFor="email">Email address</label>
-        <input id="email" type="email" name="email" required />
-      </div>
-      <button>Email a login link</button>
-      {magicLinkSent && (
-        <p>Link sent!</p>
-      )}
-    </Form>
+      <Form action="/login" method="post">
+        <fieldset>
+          <FormField label="Email address">
+            <input id="email" type="email" name="email" required />
+          </FormField>
+          <button type="submit">
+            {isSubmitting ? 'Sending...' : 'Email a login link'}
+          </button>
+        </fieldset>
+        {magicLinkSent && (
+          <p>Link sent!</p>
+        )}
+      </Form>
+    </>
   );
 }
