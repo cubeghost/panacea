@@ -15,6 +15,7 @@ import type { RecordSchema } from '@prisma/client';
 import formStyles from '~/styles/form.css';
 import styles from '~/styles/RecordTypeForm.css';
 import invariant from 'tiny-invariant';
+import { useAuthedUser } from '~/hooks/useAuthedUser';
 
 export const links = () => [
   { rel: 'stylesheet', href: styles },
@@ -100,6 +101,9 @@ const fieldsReducer = (state: FieldState[], action: ReducerAction): FieldState[]
 };
 
 const RecordTypeForm: React.FC<RecordTypeFormProps> = ({ name, color, schema }) => {
+  const { preferences } = useAuthedUser();
+  console.log({ preferences })
+
   const [fields, dispatch] = useReducer(
     fieldsReducer,
     (schema?.fields || []) as unknown as FieldState[],

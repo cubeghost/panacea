@@ -39,8 +39,11 @@ auth.use(
   )
 );
 
-export const checkAuth = async (request: Request): Promise<User> => {
-  const tinyUser = await auth.isAuthenticated(request, { failureRedirect: '/login' });
+export const checkAuth = async (request: Request): Promise<TinyUser> =>
+  await auth.isAuthenticated(request, { failureRedirect: '/login' });
+
+export const checkAuthWithUser = async (request: Request): Promise<User> => {
+  const tinyUser = await checkAuth(request);
   return await prisma.user.findUniqueOrThrow({
     where: {
       id: tinyUser.id,

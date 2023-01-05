@@ -1,11 +1,11 @@
 import type { ActionArgs, LoaderArgs } from '@remix-run/node';
-import { json } from '@remix-run/node';
-import { Form, Link, useLoaderData, useTransition } from '@remix-run/react';
+import { Form, Link, useTransition } from '@remix-run/react';
 
 import { checkAuth } from '~/services/auth.server';
 import { prisma } from '~/utils/prisma.server';
-import { Preferences, DEFAULT_PREFERENCES, PreferencesObject } from '~/utils/preferences';
+import { Preferences, DEFAULT_PREFERENCES } from '~/utils/preferences';
 import FormField from '~/components/FormField';
+import { useAuthedUser } from '~/hooks/useAuthedUser';
 
 import formStyles from '~/styles/form.css';
 
@@ -33,20 +33,16 @@ export const action = async ({ request }: ActionArgs) => {
     }
   });
 
-  console.log(user)
-
   return user;
 };
 
 export const loader = async ({ request }: LoaderArgs) => {
-  const user = await checkAuth(request);
-  return json({ user });
+  await checkAuth(request);
+  return null;
 };
 
 export default function Index() {
-  const { user } = useLoaderData<typeof loader>();
-  console.log(user)
-  const userPreferences = user.preferences as PreferencesObject;
+  const user = useAuthedUser();
   const transition = useTransition();
   const isSubmitting = transition.state === 'submitting';
 
@@ -58,7 +54,7 @@ export default function Index() {
         <fieldset disabled={isSubmitting}>
           <input type="hidden" name="userId" value={user.id} readOnly />
           {Object.entries(Preferences).map(([key, value]) => {
-            const defaultChecked = userPreferences?.[key] || DEFAULT_PREFERENCES[key] || false;
+            const defaultChecked = user.preferences?.[key] || DEFAULT_PREFERENCES[key] || false;
             return (
               <FormField checkbox label={value} key={key}>
                 <input type="checkbox" name={key} defaultChecked={defaultChecked} />

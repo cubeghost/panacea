@@ -5,6 +5,7 @@ import { Link, useLoaderData } from '@remix-run/react';
 import { checkAuth } from '~/services/auth.server';
 import { prisma } from '~/utils/prisma.server';
 import { getTextColorForBackground } from '~/utils/color';
+import { useAuthedUser } from '~/hooks/useAuthedUser';
 
 import Calendar from '~/components/Calendar';
 import styles from '~/styles/calendar.css';
@@ -14,19 +15,21 @@ export const links = () => ([
 ]);
 
 export const loader = async ({ request }: LoaderArgs) => {
-  const user = await checkAuth(request);
+  const tinyUser = await checkAuth(request);
 
   const recordTypes = await prisma.recordType.findMany({
     where: {
-      userId: user.id,
+      userId: tinyUser.id,
     },
   });
 
-  return json({ user, recordTypes });
+  return json({ recordTypes });
 };
 
 export default function Index() {
-  const { user, recordTypes } = useLoaderData<typeof loader>();
+  const { recordTypes } = useLoaderData<typeof loader>();
+  const user = useAuthedUser();
+
   return (
     <div style={{ maxWidth: '320px' }}>
       hi {user.email} <Link to="/settings">settings</Link>
