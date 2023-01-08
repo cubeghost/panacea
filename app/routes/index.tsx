@@ -59,7 +59,7 @@ export default function Index() {
       <Link to="/manage">Manage</Link>
       <br />
       <div>
-        <Calendar />
+        <Calendar records={records} />
       </div>
       <br />
       <div>
