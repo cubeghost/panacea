@@ -1,6 +1,6 @@
 import type { ActionArgs, LoaderArgs } from '@remix-run/node';
-import { json } from '@remix-run/node';
-import { useLoaderData, useTransition, Form } from '@remix-run/react';
+import { typedjson, useTypedLoaderData } from 'remix-typedjson';
+import { useTransition, Form } from '@remix-run/react';
 import { nanoid } from 'nanoid';
 import invariant from 'tiny-invariant';
 
@@ -56,14 +56,13 @@ export const loader = async ({ params }: LoaderArgs) => {
     field.id = nanoid();
   });
 
-  return json({ recordType });
+  return typedjson({ recordType });
 };
 
 export default function Update() {
   const transition = useTransition();
   const isSubmitting = transition.state === 'submitting';
-  const { recordType } = useLoaderData<typeof loader>();
-  console.log(recordType)
+  const { recordType } = useTypedLoaderData<typeof loader>();
 
   return (
     <>

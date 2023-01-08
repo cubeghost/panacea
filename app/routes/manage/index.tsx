@@ -1,6 +1,6 @@
 import type { LoaderArgs } from '@remix-run/node';
-import { json } from '@remix-run/node';
-import { Link, useLoaderData } from '@remix-run/react';
+import { typedjson, useTypedLoaderData } from 'remix-typedjson';
+import { Link } from '@remix-run/react';
 import type { RecordType } from '@prisma/client';
 
 import { prisma } from '~/utils/prisma.server';
@@ -15,11 +15,11 @@ export const loader = async ({ request }: LoaderArgs) => {
     },
   });
 
-  return json({ recordTypes });
+  return typedjson({ recordTypes });
 };
 
 export default function Index() {
-  const { recordTypes } = useLoaderData<{ recordTypes: RecordType[] }>();
+  const { recordTypes } = useTypedLoaderData<{ recordTypes: RecordType[] }>();
 
   return (
     <div>

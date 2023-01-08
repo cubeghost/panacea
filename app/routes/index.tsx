@@ -1,6 +1,8 @@
 import type { LoaderArgs } from '@remix-run/node';
-import { json } from '@remix-run/node';
-import { Link, useLoaderData } from '@remix-run/react';
+import { typedjson, useTypedLoaderData } from 'remix-typedjson';
+import { Link } from '@remix-run/react';
+import endOfMonth from 'date-fns/endOfMonth';
+import startOfMonth from 'date-fns/startOfMonth';
 
 import { checkAuth } from '~/services/auth.server';
 import { prisma } from '~/utils/prisma.server';
@@ -23,11 +25,31 @@ export const loader = async ({ request }: LoaderArgs) => {
     },
   });
 
-  return json({ recordTypes });
+  const today = new Date();
+  const dateFilter = {
+    lte: endOfMonth(today),
+    gte: startOfMonth(today),
+  };
+
+  const thisMonthRecords = await prisma.record.findMany({
+    where: {
+      userId: tinyUser.id,
+      OR: [
+        {
+          startsAt: dateFilter,
+        },
+        {
+          endsAt: dateFilter,
+        }
+      ]
+    }
+  });
+
+  return typedjson({ recordTypes, records: thisMonthRecords });
 };
 
 export default function Index() {
-  const { recordTypes } = useLoaderData<typeof loader>();
+  const { recordTypes, records } = useTypedLoaderData<typeof loader>();
   const user = useAuthedUser();
 
   return (
@@ -44,7 +66,7 @@ export default function Index() {
         {recordTypes?.map((recordType) => {
           const backgroundColor = recordType.color || '#fff';
           return (
-            <Link to={`/new/${recordType.id}`} key={recordType.id}>
+            <Link to={`/entry/new/${recordType.id}`} key={recordType.id}>
               <div style={{
                 backgroundColor,
                 color: getTextColorForBackground(backgroundColor),

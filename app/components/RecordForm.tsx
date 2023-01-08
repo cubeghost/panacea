@@ -1,36 +1,51 @@
 import React, { useState, useRef } from 'react';
 import Select from 'react-select';
-import format from 'date-fns/format';
+import DatePicker from 'react-datepicker';
 
-import { RecordSchema } from '@prisma/client';
+import { RecordSchema, Record } from '@prisma/client';
 import FormField from '~/components/FormField';
 import type { Field } from '~/utils/fields';
+import { useAuthedUser } from '~/hooks/useAuthedUser';
 
-type FieldProps = Omit<Field, 'type'>;
+import datepickerStyles from 'react-datepicker/dist/react-datepicker.css';
 
-const Range: React.FC<FieldProps> = ({ name, attributes }) => {
+export const links = () => ([
+  { rel: 'stylesheet', href: datepickerStyles, id: 'datepicker' },
+]);
+
+interface FieldProps<Value> extends Omit<Field, 'type'> {
+  value?: Value;
+}
+
+const Range: React.FC<FieldProps<number>> = ({ name, attributes, value }) => {
   return (
-    <input type="range" name={name} min={attributes?.min} max={attributes?.max} />
+    <input type="range" name={name} min={attributes?.min} max={attributes?.max} defaultValue={value} />
   );
 };
 
 const mapStringOption = (value: string) => ({ value: value, label: value });
 
-const Options: React.FC<FieldProps> = ({ name, attributes }) => {
+const Options: React.FC<FieldProps<string>> = ({ name, attributes, value }) => {
   return (
-    <Select isMulti options={attributes?.options.map(mapStringOption)} name={name} instanceId={name} />
+    <Select
+      isMulti
+      options={attributes?.options.map(mapStringOption)}
+      name={name}
+      instanceId={name}
+      defaultValue={value && mapStringOption(value as string)}
+    />
   );
 };
 
-const ShortText: React.FC<FieldProps> = ({ name }) => {
+const ShortText: React.FC<FieldProps<string>> = ({ name, value }) => {
   return (
-    <input type="text" name={name} />
+    <input type="text" name={name} defaultValue={value} />
   );
 };
 
-const LongText: React.FC<FieldProps> = ({ name }) => {
+const LongText: React.FC<FieldProps<string>> = ({ name, value }) => {
   return (
-    <textarea name={name} />
+    <textarea name={name} defaultValue={value} />
   );
 };
 
@@ -45,29 +60,55 @@ interface SchemaWithFields extends Omit<RecordSchema, 'fields'> {
   fields: Field[];
 }
 
-interface NewRecordFormProps {
+interface RecordFormProps {
   schema: SchemaWithFields;
+  record?: Record;
 }
 
-const RecordForm: React.FC<NewRecordFormProps> = ({ schema }) => {
-  const today = useRef(format(Date.now(), 'yyyy-MM-dd'));
+const RecordForm: React.FC<RecordFormProps> = ({ schema, record }) => {
+  const user = useAuthedUser();
+  const now = useRef(new Date());
   const [includeTime, setIncludeTime] = useState(true); // TODO user preference or RecordType preference
+  const [startsAt, setStartsAt] = useState<Date>(record?.startsAt || now.current);
+  const [endsAt, setEndsAt] = useState<Date | null>(record?.endsAt || null);
 
   return (
     <>
+      {!record && (
+        <>
+          <input type="hidden" name="userId" value={user.id} readOnly />
+          <input type="hidden" name="schemaId" value={schema.id} readOnly />
+        </>
+      )}
       <fieldset>
         <FormField label="Started at">
-          <input type="date" defaultValue={today.current} name="startsAt" />
+          <DatePicker
+            showTimeSelect={includeTime}
+            selected={startsAt}
+            onChange={setStartsAt}
+            dateFormat="MM/dd/yy h:mm aa"
+          />
         </FormField>
+        <input type="hidden" name="startsAt" value={startsAt?.toISOString()} readOnly />
         <FormField label="Ended at">
-          <input type="date" name="endsAt" />
+          <DatePicker
+            showTimeSelect={includeTime}
+            selected={endsAt}
+            onChange={setEndsAt}
+            dateFormat="MM/dd/yy h:mm aa"
+          />
         </FormField>
+        <input type="hidden" name="endsAt" value={endsAt?.toISOString()} readOnly />
       </fieldset>
       {schema.fields?.map((field: Field) => {
         const FieldComponent = FieldComponents[field.type];
         return (
           <FormField label={field.name} key={field.name}>
-            <FieldComponent name={field.name} attributes={field.attributes} />
+            <FieldComponent
+              name={field.name}
+              attributes={field.attributes}
+              value={record?.data?.[field.name]}
+            />
           </FormField>
         );
       })}

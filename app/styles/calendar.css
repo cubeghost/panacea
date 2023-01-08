@@ -5,8 +5,21 @@
 
 .month .day {
   padding: 0.25rem;
+  position: relative;
 }
 
 .day.isToday {
   background-color: skyblue;
+}
+
+.day.hasRecords::after {
+  content: '';
+  position: absolute;
+  width: 0.5rem;
+  height: 0.5rem;
+  background-color: white;
+  border-radius: 50%;
+  top: 50%;
+  left: 50%;
+  transform: translateX(-50%) translateY(-50%);
 }

@@ -30,7 +30,7 @@ interface FieldState extends Omit<Field, 'type'> {
 interface RecordTypeFormProps {
   name?: string;
   color?: string;
-  schema?: SerializeFrom<RecordSchema>;
+  schema?: RecordSchema;
 }
 
 const mapStringOption = (value: string) => ({ value: value, label: value });

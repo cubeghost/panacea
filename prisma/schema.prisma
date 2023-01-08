@@ -24,7 +24,7 @@ model Record {
   user      User         @relation(fields: [userId], references: [id])
   userId    Int
   startsAt  DateTime     @default(now())
-  endsAt    DateTime
+  endsAt    DateTime?
   type      RecordType   @relation(fields: [typeId], references: [id])
   typeId    Int
   schema    RecordSchema @relation(fields: [schemaId], references: [id])

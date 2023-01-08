@@ -1,4 +1,5 @@
-import { json, LoaderArgs } from '@remix-run/node';
+import { LoaderArgs } from '@remix-run/node';
+import { typedjson, useTypedLoaderData } from 'remix-typedjson';
 import {
   Links,
   LiveReload,
@@ -6,7 +7,6 @@ import {
   Outlet,
   Scripts,
   ScrollRestoration,
-  useLoaderData,
 } from '@remix-run/react';
 import cn from 'classnames';
 
@@ -41,14 +41,14 @@ export const loader = async ({ request }: LoaderArgs) => {
         id: tinyUser.id,
       }
     });
-    return json({ user: user as UserWithPreferences });
+    return typedjson({ user: user as UserWithPreferences });
   } else {
-    return json({ user: null });
+    return typedjson({ user: null });
   }
 };
 
 export default function App() {
-  const { user } = useLoaderData<typeof loader>();
+  const { user } = useTypedLoaderData<typeof loader>();
 
   return (
     <html lang="en" className={cn({ 'dark-mode': user?.preferences?.darkMode })}>
