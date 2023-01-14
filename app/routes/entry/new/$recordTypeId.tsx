@@ -8,10 +8,7 @@ import { Prisma } from '@prisma/client';
 import { prisma } from '~/utils/prisma.server';
 import RecordForm, { links as recordFormStyles } from '~/components/RecordForm';
 
-import formStyles from '~/styles/form.css';
-
 export const links = () => ([
-  { rel: 'stylesheet', href: formStyles },
   ...recordFormStyles(),
 ]);
 
@@ -33,7 +30,7 @@ export const action = async ({ request, params }: ActionArgs) => {
     }
   });
 
-  return redirect(`/manage/${record.id}`);
+  return redirect(`/entry/${record.id}`);
 };
 
 export const loader = async ({ params }: LoaderArgs) => {
@@ -60,6 +57,7 @@ export const loader = async ({ params }: LoaderArgs) => {
 export default function NewEntry() {
   const { recordType } = useTypedLoaderData<typeof loader>();
   const schema = recordType?.schemas[0];
+  const name = recordType?.name || 'entry';
   const transition = useTransition();
   const isSubmitting = transition.state === 'submitting';
 
@@ -67,11 +65,17 @@ export default function NewEntry() {
 
   return (
     <>
-      <h2>New {recordType?.name || 'entry'}</h2>
+      <h2>New {name}</h2>
       <Form method="post">
         <fieldset disabled={isSubmitting}>
           <RecordForm schema={schema} />
-          <button type="submit" disabled={isSubmitting}>{isSubmitting ? 'Saving...' : 'Save'}</button>
+          <button
+            type="submit"
+            className="btn btn-primary"
+            disabled={isSubmitting}
+          >
+            {isSubmitting ? `Saving new ${name}...` : `Save new ${name}`}
+          </button>
         </fieldset>
       </Form>
     </>

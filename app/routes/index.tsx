@@ -10,7 +10,7 @@ import { getTextColorForBackground } from '~/utils/color';
 import { useAuthedUser } from '~/hooks/useAuthedUser';
 
 import Calendar from '~/components/Calendar';
-import styles from '~/styles/calendar.css';
+import styles from '~/styles/compiled/calendar.css';
 
 export const links = () => ([
   { rel: 'stylesheet', href: styles },

@@ -1,5 +1,5 @@
 import { ActionArgs, redirect } from '@remix-run/node';
-import { Form } from '@remix-run/react';
+import { Form, useTransition } from '@remix-run/react';
 
 import { auth } from '~/services/auth.server';
 import RecordTypeForm, { links as recordTypeFormLinks } from '~/components/RecordTypeForm';
@@ -75,16 +75,25 @@ export const action = async ({ request }: ActionArgs) => {
   return redirect(`/manage/${newRecordType.id}`);
 };
 
-export default function New() {
+export default function NewRecordType() {
+  const transition = useTransition();
+  const isSubmitting = transition.state === 'submitting';
 
   return (
     <>
       <h2>New entry type</h2>
       <Form method="post">
-        <RecordTypeForm />
+        <fieldset disabled={isSubmitting}>
+          <RecordTypeForm />
 
-        <button type="submit">Save</button>
-
+          <button
+            type="submit"
+            className="btn btn-primary"
+            disabled={isSubmitting}
+          >
+            {isSubmitting ? 'Saving...' : 'Save'}
+          </button>
+        </fieldset>
       </Form>
     </>
   );

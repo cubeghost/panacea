@@ -2,10 +2,12 @@
   "private": true,
   "sideEffects": false,
   "scripts": {
-    "build": "remix build",
+    "build": "prisma generate && yarn sass && remix build",
     "dev": "remix dev",
     "start": "cross-env NODE_ENV=production netlify dev",
-    "typecheck": "tsc -b"
+    "typecheck": "tsc -b",
+    "sass": "sass app/styles/scss:app/styles/compiled",
+    "sass:watch": "sass --watch app/styles/scss:app/styles/compiled"
   },
   "dependencies": {
     "@netlify/functions": "^1.3.0",
@@ -16,6 +18,7 @@
     "@remix-run/server-runtime": "^1.9.0",
     "@sendgrid/mail": "^7.7.0",
     "autoprefixer": "^10.4.13",
+    "bootstrap": "5.3.0-alpha1",
     "chroma-js": "^2.4.2",
     "classnames": "^2.3.2",
     "cross-env": "^7.0.3",
@@ -33,7 +36,6 @@
     "remix-auth": "^3.4.0",
     "remix-auth-email-link": "^1.5.1",
     "remix-typedjson": "^0.1.7",
-    "sanitize.css": "^13.0.0",
     "tiny-invariant": "^1.3.1"
   },
   "devDependencies": {
@@ -51,6 +53,7 @@
     "eslint": "^8.27.0",
     "eslint-plugin-react": "^7.31.11",
     "prisma": "^4.8.0",
+    "sass": "^1.57.1",
     "ts-node": "^10.9.1",
     "typescript": "^4.8.4"
   },

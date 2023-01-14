@@ -19,7 +19,14 @@ interface FieldProps<Value> extends Omit<Field, 'type'> {
 
 const Range: React.FC<FieldProps<number>> = ({ name, attributes, value }) => {
   return (
-    <input type="range" name={name} min={attributes?.min} max={attributes?.max} defaultValue={value} />
+    <input
+      type="range"
+      className="form-range"
+      name={name}
+      min={attributes?.min}
+      max={attributes?.max}
+      defaultValue={value}
+    />
   );
 };
 
@@ -39,13 +46,13 @@ const Options: React.FC<FieldProps<string>> = ({ name, attributes, value }) => {
 
 const ShortText: React.FC<FieldProps<string>> = ({ name, value }) => {
   return (
-    <input type="text" name={name} defaultValue={value} />
+    <input type="text" name={name} defaultValue={value} className="form-control" />
   );
 };
 
 const LongText: React.FC<FieldProps<string>> = ({ name, value }) => {
   return (
-    <textarea name={name} defaultValue={value} />
+    <textarea name={name} defaultValue={value} className="form-control" />
   );
 };
 
@@ -87,6 +94,7 @@ const RecordForm: React.FC<RecordFormProps> = ({ schema, record }) => {
             selected={startsAt}
             onChange={setStartsAt}
             dateFormat="MM/dd/yy h:mm aa"
+            className="form-control"
           />
         </FormField>
         <input type="hidden" name="startsAt" value={startsAt?.toISOString()} readOnly />
@@ -96,6 +104,7 @@ const RecordForm: React.FC<RecordFormProps> = ({ schema, record }) => {
             selected={endsAt}
             onChange={setEndsAt}
             dateFormat="MM/dd/yy h:mm aa"
+            className="form-control"
           />
         </FormField>
         <input type="hidden" name="endsAt" value={endsAt?.toISOString()} readOnly />

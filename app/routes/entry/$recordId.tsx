@@ -7,10 +7,7 @@ import { Prisma } from '@prisma/client';
 import { prisma } from '~/utils/prisma.server';
 import RecordForm, { links as recordFormStyles } from '~/components/RecordForm';
 
-import formStyles from '~/styles/form.css';
-
 export const links = () => ([
-  { rel: 'stylesheet', href: formStyles },
   ...recordFormStyles(),
 ]);
 
@@ -61,7 +58,7 @@ export const loader = async ({ params }: LoaderArgs) => {
 };
 
 
-export default function NewEntry() {
+export default function EditEntry() {
   const { record } = useTypedLoaderData<typeof loader>();
   const recordType = record?.type;
   const schema = record?.schema;
@@ -76,7 +73,13 @@ export default function NewEntry() {
       <Form method="post">
         <fieldset disabled={isSubmitting}>
           <RecordForm schema={schema} record={record} />
-          <button type="submit" disabled={isSubmitting}>{isSubmitting ? 'Saving...' : 'Save'}</button>
+          <button
+            type="submit"
+            className="btn btn-primary"
+            disabled={isSubmitting}
+          >
+            {isSubmitting ? 'Saving...' : 'Save'}
+          </button>
         </fieldset>
       </Form>
     </>

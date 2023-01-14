@@ -59,7 +59,7 @@ export const loader = async ({ params }: LoaderArgs) => {
   return typedjson({ recordType });
 };
 
-export default function Update() {
+export default function UpdateRecordType() {
   const transition = useTransition();
   const isSubmitting = transition.state === 'submitting';
   const { recordType } = useTypedLoaderData<typeof loader>();
@@ -75,7 +75,13 @@ export default function Update() {
             schema={recordType.schemas[0]}
           />
 
-          <button type="submit">{isSubmitting ? 'Saving...' : 'Save'}</button>
+          <button
+            type="submit"
+            className="btn btn-primary"
+            disabled={isSubmitting}
+          >
+            {isSubmitting ? 'Saving...' : 'Save'}
+          </button>
         </fieldset>
       </Form>
     </>

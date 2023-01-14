@@ -6,20 +6,18 @@ import sample from 'lodash/sample';
 import { SerializeFrom } from '@remix-run/node';
 import { nanoid } from 'nanoid';
 import chroma from 'chroma-js';
+import invariant from 'tiny-invariant';
 
 import type { Field, RangeAttributes } from '~/utils/fields';
 import { FieldTypes } from '~/utils/fields';
 import FormField from '~/components/FormField';
 import type { RecordSchema } from '@prisma/client';
 
-import formStyles from '~/styles/form.css';
-import styles from '~/styles/RecordTypeForm.css';
-import invariant from 'tiny-invariant';
+import styles from '~/styles/compiled/RecordTypeForm.css';
 import { useAuthedUser } from '~/hooks/useAuthedUser';
 
 export const links = () => [
   { rel: 'stylesheet', href: styles },
-  { rel: 'stylesheet', href: formStyles },
 ];
 
 interface FieldState extends Omit<Field, 'type'> {
@@ -257,7 +255,7 @@ const RecordTypeForm: React.FC<RecordTypeFormProps> = ({ name, color, schema }) 
                       ))}
                     </div>
                   )}
-                  <button type="button" onClick={onRandomize(index)}>
+                  <button type="button" onClick={onRandomize(index)} className="btn">
                     Randomize colors
                   </button>
                 </div>
@@ -288,7 +286,7 @@ const RecordTypeForm: React.FC<RecordTypeFormProps> = ({ name, color, schema }) 
           </fieldset>
         );
       })}
-      <button type="button" onClick={addField}>
+      <button type="button" onClick={addField} className="btn">
         Add field
       </button>
     </>

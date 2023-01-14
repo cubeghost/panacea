@@ -14,16 +14,9 @@ import { auth } from '~/services/auth.server';
 import { prisma } from '~/utils/prisma.server';
 import { UserContext, UserWithPreferences } from '~/hooks/useAuthedUser';
 
-import sanitize from 'sanitize.css';
-import sanitizeForms from 'sanitize.css/forms.css';
-import sanitizeType from 'sanitize.css/typography.css';
-
-import styles from '~/styles/global.css';
+import styles from '~/styles/compiled/root.css';
 
 export const links = () => ([
-  { rel: 'stylesheet', href: sanitize },
-  { rel: 'stylesheet', href: sanitizeForms },
-  { rel: 'stylesheet', href: sanitizeType },
   { rel: 'stylesheet', href: styles },
 ]);
 
@@ -51,12 +44,12 @@ export default function App() {
   const { user } = useTypedLoaderData<typeof loader>();
 
   return (
-    <html lang="en" className={cn({ 'dark-mode': user?.preferences?.darkMode })}>
+    <html lang="en" data-bs-theme={user?.preferences?.darkMode ? 'dark' : 'light'}>
       <head>
         <Meta />
         <Links />
       </head>
-      <body>
+      <body className="m-4">
         <UserContext.Provider value={user}>
           <Outlet />
         </UserContext.Provider>

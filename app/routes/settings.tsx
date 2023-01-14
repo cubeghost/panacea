@@ -7,12 +7,6 @@ import { Preferences, DEFAULT_PREFERENCES } from '~/utils/preferences';
 import FormField from '~/components/FormField';
 import { useAuthedUser } from '~/hooks/useAuthedUser';
 
-import formStyles from '~/styles/form.css';
-
-export const links = () => ([
-  { rel: 'stylesheet', href: formStyles },
-]);
-
 export const action = async ({ request }: ActionArgs) => {
   const data = await request.formData();
 

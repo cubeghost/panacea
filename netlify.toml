@@ -1,5 +1,5 @@
 [build]
-  command = "prisma generate && remix build"
+  command = "yarn build"
   publish = "public"
 
 [dev]
