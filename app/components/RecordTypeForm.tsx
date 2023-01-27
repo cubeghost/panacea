@@ -1,6 +1,4 @@
 import React, { useReducer } from 'react';
-import Select from 'react-select';
-import CreatableSelect from 'react-select/creatable';
 import set from 'lodash/set';
 import sample from 'lodash/sample';
 import { SerializeFrom } from '@remix-run/node';
@@ -8,6 +6,7 @@ import { nanoid } from 'nanoid';
 import chroma from 'chroma-js';
 import invariant from 'tiny-invariant';
 
+import { Select, CreatableSelect } from '~/components/Select';
 import type { Field, RangeAttributes } from '~/utils/fields';
 import { FieldTypes } from '~/utils/fields';
 import FormField from '~/components/FormField';
@@ -100,7 +99,7 @@ const fieldsReducer = (state: FieldState[], action: ReducerAction): FieldState[]
 
 const RecordTypeForm: React.FC<RecordTypeFormProps> = ({ name, color, schema }) => {
   const { preferences } = useAuthedUser();
-  console.log({ preferences })
+  const { rangeColors } = preferences;
 
   const [fields, dispatch] = useReducer(
     fieldsReducer,
@@ -178,11 +177,11 @@ const RecordTypeForm: React.FC<RecordTypeFormProps> = ({ name, color, schema }) 
 
   return (
     <>
-      <FormField label="Name">
-        <input type="text" name="name" defaultValue={name} />
+      <FormField label="Name" name="name">
+        <input type="text" defaultValue={name} />
       </FormField>
-      <FormField label="Color">
-        <input type="color" name="color" defaultValue={color} />
+      <FormField label="Color" name="color">
+        <input type="color" defaultValue={color} />
       </FormField>
       <hr />
       {fields.map((field, index) => {
@@ -194,14 +193,13 @@ const RecordTypeForm: React.FC<RecordTypeFormProps> = ({ name, color, schema }) 
           }
         }
         return (
-          <fieldset key={index} className="schemaField">
+          <fieldset key={index} className="schemaField border rounded">
             <div className="schemaField__fields">
-              <FormField label="Field name">
-                <input type="text" name={`fields[${index}].name`} defaultValue={field.name} />
+              <FormField label="Field name" name={`fields[${index}].name`}>
+                <input type="text" defaultValue={field.name} />
               </FormField>
-              <FormField label="Field type">
+              <FormField label="Field type" name={`fields[${index}].type`}>
                 <Select
-                  name={`fields[${index}].type`}
                   onChange={onSelect(index)}
                   options={FieldTypeOptions}
                   defaultValue={schema && field.type && mapStringOption(field.type)}
@@ -217,12 +215,12 @@ const RecordTypeForm: React.FC<RecordTypeFormProps> = ({ name, color, schema }) 
                         <input
                           type="number"
                           name={`fields[${index}].attributes.min`}
-                          defaultValue={field.attributes?.min}
+                          defaultValue={field.attributes?.min || 1}
                           onChange={onNumberUpdate(index, 'min')}
                         />
                       </label>
                       <input
-                        type="color"
+                        type={rangeColors ? 'color' : 'hidden'}
                         name={`fields[${index}].attributes.minColor`}
                         defaultValue={field.attributes?.minColor}
                         aria-label="Color for minimum end of scale"
@@ -235,12 +233,12 @@ const RecordTypeForm: React.FC<RecordTypeFormProps> = ({ name, color, schema }) 
                         <input
                           type="number"
                           name={`fields[${index}].attributes.max`}
-                          defaultValue={field.attributes?.max}
+                          defaultValue={field.attributes?.max || 10}
                           onChange={onNumberUpdate(index, 'max')}
                         />
                       </label>
                       <input
-                        type="color"
+                        type={rangeColors ? 'color' : 'hidden'}
                         name={`fields[${index}].attributes.maxColor`}
                         defaultValue={field.attributes?.maxColor}
                         aria-label="Color for maximum end of scale"
@@ -248,23 +246,25 @@ const RecordTypeForm: React.FC<RecordTypeFormProps> = ({ name, color, schema }) 
                       />
                     </div>
                   </div>
-                  {colors && (
-                    <div className="schemaField__rangeOptions__colorScale">
-                      {colors.map(color => (
-                        <div style={{ backgroundColor: color }} key={color} />
-                      ))}
-                    </div>
+                  {rangeColors && (
+                    <>
+                      {colors && (
+                        <div className="schemaField__rangeOptions__colorScale">
+                          {colors.map(color => (
+                            <div style={{ backgroundColor: color }} key={color} />
+                          ))}
+                        </div>
+                      )}
+                      <button type="button" onClick={onRandomize(index)} className="btn btn-secondary">
+                        Randomize colors
+                      </button>
+                    </>
                   )}
-                  <button type="button" onClick={onRandomize(index)} className="btn">
-                    Randomize colors
-                  </button>
                 </div>
               )}
               {field.type === FieldTypes.Options && (
-                <FormField label="Options">
+                <FormField label="Options" name={`fields[${index}].attributes.options`}>
                   <CreatableSelect
-                    isMulti
-                    name={`fields[${index}].attributes.options`}
                     defaultValue={
                       field.attributes?.options && field.attributes?.options.map(mapStringOption)
                     }
@@ -276,19 +276,21 @@ const RecordTypeForm: React.FC<RecordTypeFormProps> = ({ name, color, schema }) 
             <div className="schemaField__controls">
               <button
                 type="button"
-                className="schemaField__deleteButton"
+                className="schemaField__deleteButton btn btn-outline-danger"
                 onClick={deleteField}
                 data-index={index}
-                aria-label="Delete field">
+                aria-label="Delete field"
+              >
                 x
               </button>
             </div>
           </fieldset>
         );
       })}
-      <button type="button" onClick={addField} className="btn">
+      <button type="button" onClick={addField} className="btn btn-secondary">
         Add field
       </button>
+      <hr />
     </>
   );
 };

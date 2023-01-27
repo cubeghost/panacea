@@ -1,6 +1,6 @@
 import type { LoaderArgs, ActionArgs } from '@remix-run/node';
 import { Form, useLoaderData, useTransition } from '@remix-run/react';
-import { json } from '@remix-run/node'; 
+import { json } from '@remix-run/node';
 
 import { auth } from '~/services/auth.server';
 import { sessionStorage } from '~/services/session.server';
@@ -39,9 +39,9 @@ export default function Login() {
     <>
       <h1>Log in to your account.</h1>
       <Form action="/login" method="post">
-        <fieldset>
-          <FormField label="Email address">
-            <input id="email" type="email" name="email" required />
+        <fieldset disabled={isSubmitting}>
+          <FormField label="Email address" name="email">
+            <input id="email" type="email" required />
           </FormField>
           <button type="submit">
             {isSubmitting ? 'Sending...' : 'Email a login link'}

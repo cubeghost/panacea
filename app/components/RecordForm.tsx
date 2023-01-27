@@ -17,44 +17,36 @@ interface FieldProps<Value> extends Omit<Field, 'type'> {
   value?: Value;
 }
 
-const Range: React.FC<FieldProps<number>> = ({ name, attributes, value }) => {
-  return (
-    <input
-      type="range"
-      className="form-range"
-      name={name}
-      min={attributes?.min}
-      max={attributes?.max}
-      defaultValue={value}
-    />
-  );
-};
+const Range: React.FC<FieldProps<number>> = ({ name, attributes, value }) => (
+  <input
+    type="range"
+    className="form-range"
+    name={name}
+    min={attributes?.min}
+    max={attributes?.max}
+    defaultValue={value}
+  />
+);
 
 const mapStringOption = (value: string) => ({ value: value, label: value });
 
-const Options: React.FC<FieldProps<string>> = ({ name, attributes, value }) => {
-  return (
-    <Select
-      isMulti
-      options={attributes?.options.map(mapStringOption)}
-      name={name}
-      instanceId={name}
-      defaultValue={value && mapStringOption(value as string)}
-    />
-  );
-};
+const Options: React.FC<FieldProps<string>> = ({ name, attributes, value }) => (
+  <Select
+    isMulti
+    options={attributes?.options.map(mapStringOption)}
+    name={name}
+    instanceId={name}
+    defaultValue={value && mapStringOption(value as string)}
+  />
+);
 
-const ShortText: React.FC<FieldProps<string>> = ({ name, value }) => {
-  return (
-    <input type="text" name={name} defaultValue={value} className="form-control" />
-  );
-};
+const ShortText: React.FC<FieldProps<string>> = ({ name, value }) => (
+  <input type="text" name={name} defaultValue={value} className="form-control" />
+);
 
-const LongText: React.FC<FieldProps<string>> = ({ name, value }) => {
-  return (
-    <textarea name={name} defaultValue={value} className="form-control" />
-  );
-};
+const LongText: React.FC<FieldProps<string>> = ({ name, value }) => (
+  <textarea name={name} defaultValue={value} className="form-control" />
+);
 
 const FieldComponents = {
   'Range': Range,
@@ -76,7 +68,7 @@ const RecordForm: React.FC<RecordFormProps> = ({ schema, record }) => {
   const user = useAuthedUser();
   const now = useRef(new Date());
   const [includeTime, setIncludeTime] = useState(true); // TODO user preference or RecordType preference
-  const [startsAt, setStartsAt] = useState<Date>(record?.startsAt || now.current);
+  const [startsAt, setStartsAt] = useState<Date | null>(record?.startsAt || now.current);
   const [endsAt, setEndsAt] = useState<Date | null>(record?.endsAt || null);
 
   return (
@@ -112,7 +104,7 @@ const RecordForm: React.FC<RecordFormProps> = ({ schema, record }) => {
       {schema.fields?.map((field: Field) => {
         const FieldComponent = FieldComponents[field.type];
         return (
-          <FormField label={field.name} key={field.name}>
+          <FormField label={field.name} name={field.name} key={field.name}>
             <FieldComponent
               name={field.name}
               attributes={field.attributes}

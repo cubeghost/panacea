@@ -48,15 +48,22 @@ export default function Index() {
         <fieldset disabled={isSubmitting}>
           <input type="hidden" name="userId" value={user.id} readOnly />
           {Object.entries(Preferences).map(([key, value]) => {
-            const defaultChecked = user.preferences?.[key] || DEFAULT_PREFERENCES[key] || false;
+            const defaultChecked = Object.prototype.hasOwnProperty.call(user.preferences, key) ?
+              user.preferences[key] : (DEFAULT_PREFERENCES[key] || false);
             return (
-              <FormField checkbox label={value} key={key}>
-                <input type="checkbox" name={key} defaultChecked={defaultChecked} />
+              <FormField checkbox label={value} name={key} key={key}>
+                <input type="checkbox" defaultChecked={defaultChecked} />
               </FormField>
             );
           })}
 
-          <button type="submit">{isSubmitting ? 'Saving...' : 'Save'}</button>
+          <button
+            type="submit"
+            className="btn btn-primary"
+            disabled={isSubmitting}
+          >
+            {isSubmitting ? 'Saving...' : 'Save'}
+          </button>
         </fieldset>
       </Form>
     </div>

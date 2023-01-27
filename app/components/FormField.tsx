@@ -3,28 +3,35 @@ import cn from 'classnames';
 
 interface FormFieldProps {
   checkbox?: boolean;
-  children: React.ReactNode;
+  children: React.ReactElement;
   className?: string;
   label: React.ReactNode;
+  name?: string;
 }
+
+const SIMPLE_INPUT_TAGS = ['input', 'textarea'];
 
 const FormField: React.FC<FormFieldProps> = ({
   checkbox,
   children,
   className,
   label,
+  name,
 }) => {
-  const classNames = cn('formField', {
+  const classNames = cn('my-1', {
     'formField--checkbox': checkbox,
     'form-check': checkbox,
   }, className);
 
-  const isSingleInput = React.Children.count(children) === 1 && children?.type === 'input';
+  const isSingleInput = React.isValidElement(children) && React.Children.count(children) === 1;
+  const isSimpleInput = typeof children?.type === 'string' && SIMPLE_INPUT_TAGS.includes(children?.type);
   const input = isSingleInput ? (
-    React.cloneElement(children, {
-      className: cn({
-        'form-control': !checkbox,
-        'form-check-input': checkbox,
+    React.cloneElement(children as React.ReactElement, {
+      name,
+      id: checkbox ? name : undefined,
+      className: cn(children?.props?.className, {
+        'form-control': isSimpleInput && !checkbox,
+        'form-check-input': isSimpleInput && checkbox,
       })
     })
   ) : children;
@@ -34,7 +41,7 @@ const FormField: React.FC<FormFieldProps> = ({
       {checkbox ? (
         <>
           {input}
-          <label className="form-check-label">{label}</label>
+          <label className="form-check-label" htmlFor={name}>{label}</label>
         </>
       ) : (
         <label>

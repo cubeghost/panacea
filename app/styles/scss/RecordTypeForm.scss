@@ -41,6 +41,8 @@
 .schemaField__rangeOptions__inputGroup input[type=color] {
   width: 6rem;
   margin: 0.125rem 0;
+  padding: 0;
+  border: 0;
 }
 
 .schemaField__rangeOptions__inputGroup input[type=color]::-webkit-color-swatch-wrapper {
