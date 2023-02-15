@@ -8,6 +8,8 @@ export enum FieldTypes {
 export interface RangeAttributes {
   min: number;
   max: number;
+  minColor?: string;
+  maxColor?: string;
 }
 
 export interface OptionsAttributes {

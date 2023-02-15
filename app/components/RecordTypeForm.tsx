@@ -217,6 +217,7 @@ const RecordTypeForm: React.FC<RecordTypeFormProps> = ({ name, color, schema }) 
                           name={`fields[${index}].attributes.min`}
                           defaultValue={field.attributes?.min || 1}
                           onChange={onNumberUpdate(index, 'min')}
+                          className="form-control"
                         />
                       </label>
                       <input
@@ -235,6 +236,7 @@ const RecordTypeForm: React.FC<RecordTypeFormProps> = ({ name, color, schema }) 
                           name={`fields[${index}].attributes.max`}
                           defaultValue={field.attributes?.max || 10}
                           onChange={onNumberUpdate(index, 'max')}
+                          className="form-control"
                         />
                       </label>
                       <input

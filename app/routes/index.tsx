@@ -10,6 +10,7 @@ import { getTextColorForBackground } from '~/utils/color';
 import { useAuthedUser } from '~/hooks/useAuthedUser';
 
 import Calendar from '~/components/Calendar';
+import RecordList from '~/components/RecordList';
 import styles from '~/styles/compiled/calendar.css';
 
 export const links = () => ([
@@ -78,6 +79,9 @@ export default function Index() {
             </Link>
           );
         })}
+      </div>
+      <div>
+        <RecordList records={records} recordTypes={recordTypes} />
       </div>
     </div>
   );
