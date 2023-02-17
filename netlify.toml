@@ -1,17 +1,20 @@
 [build]
-  command = "yarn build"
-  publish = "public"
+command = "yarn build"
+publish = "public"
 
 [dev]
-  command = "remix watch"
-  port = 3000
+command = "remix watch"
+port = 3000
+
+[functions]
+deno_import_map = "./import_map.json"
 
 [[redirects]]
-  from = "/*"
-  to = "/.netlify/functions/server"
-  status = 200
+from = "/*"
+status = 200
+to = "/.netlify/functions/server"
 
 [[headers]]
-  for = "/build/*"
-  [headers.values]
-    "Cache-Control" = "public, max-age=31536000, s-maxage=31536000"
+for = "/build/*"
+[headers.values]
+"Cache-Control" = "public, max-age=31536000, s-maxage=31536000"
