@@ -1,4 +1,4 @@
-import { LoaderArgs } from '@remix-run/node';
+import { LoaderArgs } from '@netlify/remix-runtime';
 import { typedjson, useTypedLoaderData } from 'remix-typedjson';
 import {
   Links,

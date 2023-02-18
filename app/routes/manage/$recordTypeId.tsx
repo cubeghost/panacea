@@ -1,7 +1,7 @@
-import type { ActionArgs, LoaderArgs } from '@remix-run/node';
+import type { ActionArgs, LoaderArgs } from '@netlify/remix-runtime';
 import { typedjson, useTypedLoaderData } from 'remix-typedjson';
 import { useTransition, Form } from '@remix-run/react';
-import { nanoid } from 'nanoid';
+import { nanoid } from 'https://deno.land/x/nanoid/mod.ts';
 import invariant from 'tiny-invariant';
 
 import { prisma } from '~/utils/prisma.server';

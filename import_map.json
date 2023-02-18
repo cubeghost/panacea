@@ -1,0 +1,6 @@
+{
+  "imports": {
+    "~/": "/app/",
+    "!@prisma/client": "/generated/client"
+  }
+}

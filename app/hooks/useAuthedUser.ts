@@ -1,6 +1,6 @@
 import React, { useContext } from 'react';
 
-import { User } from '@prisma/client';
+import { User } from '!@prisma/client';
 import { PreferencesObject } from '~/utils/preferences';
 import invariant from 'tiny-invariant';
 

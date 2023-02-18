@@ -4,7 +4,7 @@ import { prisma } from '~/utils/prisma.server';
 import { sessionStorage } from '~/services/session.server';
 import { sendMagicLinkEmail } from '~/services/email.server';
 
-import type { User } from '@prisma/client';
+import type { User } from '!@prisma/client';
 
 export type TinyUser = Pick<User, 'id' | 'email'>;
 

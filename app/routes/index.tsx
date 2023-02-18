@@ -1,4 +1,4 @@
-import type { LoaderArgs } from '@remix-run/node';
+import type { LoaderArgs } from '@netlify/remix-runtime';
 import { typedjson, useTypedLoaderData } from 'remix-typedjson';
 import { Link } from '@remix-run/react';
 import endOfMonth from 'date-fns/endOfMonth';

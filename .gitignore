@@ -6,3 +6,4 @@ node_modules
 .env
 yarn-error.log
 app/styles/compiled
+/generated/client

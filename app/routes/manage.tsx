@@ -1,4 +1,4 @@
-import type { LoaderArgs } from '@remix-run/node';
+import type { LoaderArgs } from '@netlify/remix-runtime';
 import { Outlet } from '@remix-run/react';
 
 import { auth } from '~/services/auth.server';

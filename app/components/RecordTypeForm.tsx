@@ -1,8 +1,8 @@
 import React, { useReducer } from 'react';
 import set from 'lodash/set';
 import sample from 'lodash/sample';
-import { SerializeFrom } from '@remix-run/node';
-import { nanoid } from 'nanoid';
+import { SerializeFrom } from '@netlify/remix-runtime';
+import { nanoid } from 'https://deno.land/x/nanoid/mod.ts';
 import chroma from 'chroma-js';
 import invariant from 'tiny-invariant';
 
@@ -10,7 +10,7 @@ import { Select, CreatableSelect } from '~/components/Select';
 import type { Field, RangeAttributes } from '~/utils/fields';
 import { FieldTypes } from '~/utils/fields';
 import FormField from '~/components/FormField';
-import type { RecordSchema } from '@prisma/client';
+import type { RecordSchema } from '!@prisma/client';
 
 import styles from '~/styles/compiled/RecordTypeForm.css';
 import { useAuthedUser } from '~/hooks/useAuthedUser';

@@ -2,7 +2,7 @@
 import React from 'react';
 import cn from 'classnames';
 import { eachDayOfInterval, startOfMonth, endOfMonth, startOfDay, isToday, getDate, getDay } from 'date-fns';
-import type { Record } from '@prisma/client';
+import type { Record } from '!@prisma/client';
 
 interface CalendarProps {
   records: Record[];

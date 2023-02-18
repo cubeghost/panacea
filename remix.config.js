@@ -1,20 +1,14 @@
+// eslint-disable-next-line @typescript-eslint/no-var-requires
+const { config } = require('@netlify/remix-edge-adapter');
+
 /** @type {import('@remix-run/dev').AppConfig} */
 module.exports = {
-  serverBuildTarget: 'netlify',
-  server:
-    process.env.NETLIFY || process.env.NETLIFY_LOCAL
-      ? './server.js'
-      : undefined,
-  ignoredRouteFiles: ['**/.*'],
+  ...config,
   serverDependenciesToBundle: [
     'query-string',
     'decode-uri-component',
     'split-on-first',
     'filter-obj',
-    'nanoid',
+    // 'nanoid',
   ],
-  // appDirectory: "app",
-  // assetsBuildDirectory: "public/build",
-  // serverBuildPath: ".netlify/functions-internal/server.js",
-  // publicPath: "/build/",
 };

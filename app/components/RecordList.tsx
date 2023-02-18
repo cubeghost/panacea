@@ -1,5 +1,5 @@
 import React from 'react';
-import type { Record, RecordType } from '@prisma/client';
+import type { Record, RecordType } from '!@prisma/client';
 import { keyBy } from 'lodash';
 
 interface RecordListProps {
