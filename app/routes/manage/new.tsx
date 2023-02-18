@@ -1,4 +1,4 @@
-import { ActionArgs, redirect } from '@remix-run/node';
+import { ActionArgs, redirect } from '@netlify/remix-runtime';
 import { Form, useTransition } from '@remix-run/react';
 
 import { auth } from '~/services/auth.server';

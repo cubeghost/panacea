@@ -1,6 +1,6 @@
-import type { LoaderArgs, ActionArgs } from '@remix-run/node';
+import type { LoaderArgs, ActionArgs } from '@netlify/remix-runtime';
 import { Form, useLoaderData, useTransition } from '@remix-run/react';
-import { json } from '@remix-run/node';
+import { json } from '@netlify/remix-runtime';
 
 import { auth } from '~/services/auth.server';
 import { sessionStorage } from '~/services/session.server';

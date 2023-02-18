@@ -9,6 +9,6 @@ module.exports = {
     'decode-uri-component',
     'split-on-first',
     'filter-obj',
-    'nanoid',
+    // 'nanoid',
   ],
 };

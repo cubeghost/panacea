@@ -1,10 +1,10 @@
-import type { ActionArgs, LoaderArgs } from '@remix-run/node';
-import { redirect } from '@remix-run/node';
+import type { ActionArgs, LoaderArgs } from '@netlify/remix-runtime';
+import { redirect } from '@netlify/remix-runtime';
 import { typedjson, useTypedLoaderData } from 'remix-typedjson';
 import { Form, useTransition } from '@remix-run/react';
 import invariant from 'tiny-invariant';
 
-import { Prisma } from '@prisma/client';
+import { Prisma } from '!@prisma/client';
 import { prisma } from '~/utils/prisma.server';
 import RecordForm, { links as recordFormStyles } from '~/components/RecordForm';
 

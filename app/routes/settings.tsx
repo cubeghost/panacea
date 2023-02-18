@@ -1,4 +1,4 @@
-import type { ActionArgs, LoaderArgs } from '@remix-run/node';
+import type { ActionArgs, LoaderArgs } from '@netlify/remix-runtime';
 import { Form, Link, useTransition } from '@remix-run/react';
 
 import { checkAuth } from '~/services/auth.server';

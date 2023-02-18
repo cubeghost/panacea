@@ -26,6 +26,9 @@
     "paths": {
       "~/*": [
         "./app/*"
+      ],
+      "!@prisma/client": [
+        "./generated/client/deno/edge.ts"
       ]
     },
     // Remix takes care of building everything in `remix build`.

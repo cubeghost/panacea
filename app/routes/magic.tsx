@@ -1,4 +1,4 @@
-import type { LoaderArgs } from '@remix-run/node';
+import type { LoaderArgs } from '@netlify/remix-runtime';
 import { auth } from '~/services/auth.server';
 
 export const loader = async ({ request }: LoaderArgs) => {

@@ -2,7 +2,7 @@ import React, { useState, useRef } from 'react';
 import Select from 'react-select';
 import DatePicker from 'react-datepicker';
 
-import { RecordSchema, Record } from '@prisma/client';
+import { RecordSchema, Record } from '!@prisma/client';
 import FormField from '~/components/FormField';
 import type { Field } from '~/utils/fields';
 import { useAuthedUser } from '~/hooks/useAuthedUser';

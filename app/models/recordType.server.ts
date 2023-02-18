@@ -3,7 +3,7 @@ import set from 'lodash/set';
 import isEqual from 'lodash/isEqual';
 
 import { prisma } from '~/utils/prisma.server';
-import type { Prisma } from '@prisma/client';
+import type { Prisma } from '!@prisma/client';
 import type { Field } from '~/utils/fields';
 
 interface RecordTypeWithFields extends Prisma.RecordTypeCreateInput {
