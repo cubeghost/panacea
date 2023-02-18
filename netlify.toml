@@ -3,16 +3,13 @@ command = "yarn build"
 publish = "public"
 
 [dev]
-command = "remix watch"
+command = "yarn watch"
 port = 3000
-
-[functions]
-deno_import_map = "./import_map.json"
 
 [[redirects]]
 from = "/*"
 status = 200
-to = "/.netlify/functions/server"
+to = "/.netlify/edge-functions/server"
 
 [[headers]]
 for = "/build/*"
